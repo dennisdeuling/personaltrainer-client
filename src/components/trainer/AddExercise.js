@@ -44,7 +44,6 @@ class AddExercise extends Component {
 			}, error => {
 				console.error(error);
 			});
-
 	};
 
 	handleChange = event => {
