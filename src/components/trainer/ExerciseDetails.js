@@ -35,10 +35,9 @@ class ExerciseDetails extends Component {
 			});
 	}
 
-	handleFormSubmit = event => {
+	editExercise = event => {
 		event.preventDefault();
 		const {_id, title, description} = this.state;
-		console.log(_id);
 
 		axios.put(`http://localhost:5000/api/exercise/${_id}`, {
 			title,
@@ -54,6 +53,22 @@ class ExerciseDetails extends Component {
 			});
 	};
 
+	deleteExercise = () => {
+		const {_id} = this.state;
+
+		axios.delete(`http://localhost:5000/api/exercise/${_id}`, {
+			withCredentials: true
+		})
+			.then(() => {
+				// this.props.history.push('/exercise');
+				/*this.setState({
+					showForm: false
+				});*/
+			}, error => {
+				console.error(error);
+			});
+	};
+
 	handleChange = event => {
 		const {name, value} = event.target;
 
@@ -63,10 +78,11 @@ class ExerciseDetails extends Component {
 	};
 
 	render() {
+		console.log(`history ${this.props}`);
 		return (
 			<React.Fragment>
 				{this.state.showForm ?
-					<Form onSubmit={this.handleFormSubmit}>
+					<Form onSubmit={this.editExercise}>
 						<Card style={{width: '18rem'}}>
 							<Card.Img variant="top" src={this.state.thumbImage}/>
 							<Card.Body>
@@ -103,7 +119,8 @@ class ExerciseDetails extends Component {
 									Submit
 								</Button>
 								<FontAwesomeIcon
-									icon={faTrash}/>
+									icon={faTrash}
+									onClick={() => this.deleteExercise()}/>
 							</Card.Body>
 						</Card>
 					</Form>
@@ -117,7 +134,8 @@ class ExerciseDetails extends Component {
 								icon={faEdit}
 								onClick={() => this.setState({showForm: true})}/>
 							<FontAwesomeIcon
-								icon={faTrash}/>
+								icon={faTrash}
+								onClick={() => this.deleteExercise()}/>
 						</Card.Body>
 					</Card>
 				}
