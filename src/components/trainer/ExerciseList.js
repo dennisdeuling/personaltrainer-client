@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {Container, Row} from 'react-bootstrap';
 import ExerciseDetails from './ExerciseDetails';
 
 class ExerciseList extends Component {
@@ -24,8 +25,6 @@ class ExerciseList extends Component {
 	}
 
 	render() {
-		console.log(this.state.listOfAllExercises);
-
 		const exerciseList = this.state.listOfAllExercises.map(exercise => {
 			return <ExerciseDetails
 				key={exercise._id}
@@ -36,7 +35,11 @@ class ExerciseList extends Component {
 		return (
 			<div>
 				<h1>Exercises</h1>
-				{exerciseList}
+				<Container>
+					<Row>
+						{exerciseList}
+					</Row>
+				</Container>
 			</div>
 		);
 	}

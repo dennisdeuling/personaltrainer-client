@@ -84,7 +84,10 @@ class AddExercise extends Component {
 						custom
 						onChange={event => this.handleFileUpload(event)}/>
 
-					<Button variant="primary" type="submit">
+					<Button variant="primary"
+							type="submit"
+							size="lg"
+							block>
 						Submit
 					</Button>
 				</Form>
