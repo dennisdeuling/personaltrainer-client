@@ -8,15 +8,15 @@ class ExerciseDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			_id: '',
-			title: '',
-			description: '',
-			thumbImage: '',
+			_id: this.props.id,
+			title: this.props.title,
+			description: this.props.description,
+			thumbImage: this.props.thumbImage,
 			showForm: false
 		};
 	}
 
-	componentDidMount() {
+	/*componentDidMount() {
 		const id = this.props.id;
 		axios.get(`http://localhost:5000/api/exercise/${id}`, {
 			withCredentials: true
@@ -33,7 +33,7 @@ class ExerciseDetails extends Component {
 			}, error => {
 				console.error(error);
 			});
-	}
+	}*/
 
 	editExercise = event => {
 		event.preventDefault();
@@ -78,7 +78,6 @@ class ExerciseDetails extends Component {
 	};
 
 	render() {
-		console.log(`history ${this.props}`);
 		return (
 			<React.Fragment>
 				{this.state.showForm ?

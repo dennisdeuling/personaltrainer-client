@@ -28,7 +28,10 @@ class ExerciseList extends Component {
 		const exerciseList = this.state.listOfAllExercises.map(exercise => {
 			return <ExerciseDetails
 				key={exercise._id}
-				id={exercise._id}/>;
+				id={exercise._id}
+				thumbImage={exercise.thumbImage}
+				title={exercise.title}
+				description={exercise.description}/>;
 		});
 		return (
 			<div>
