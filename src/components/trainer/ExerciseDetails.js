@@ -8,7 +8,7 @@ class ExerciseDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			_id: this.props.id,
+			_id: this.props._id,
 			title: this.props.title,
 			description: this.props.description,
 			thumbImage: this.props.thumbImage,
@@ -44,7 +44,6 @@ class ExerciseDetails extends Component {
 			description
 		}, {withCredentials: true})
 			.then(() => {
-				// this.props.history.push('/exercise');
 				this.setState({
 					showForm: false
 				});
@@ -60,7 +59,7 @@ class ExerciseDetails extends Component {
 			withCredentials: true
 		})
 			.then(() => {
-				// this.props.history.push('/exercise');
+				this.props.deleteExercise(_id);
 				/*this.setState({
 					showForm: false
 				});*/

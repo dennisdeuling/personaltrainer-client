@@ -8,9 +8,9 @@ function App() {
 	return (
 		<div className="App">
 			<Switch>
-				<Route exact path="/exercises">
-					<ExerciseList/>
-				</Route>
+				<Route exact
+					   path="/exercises"
+					   render={props => <ExerciseList {...props} />}/>
 				<Route exact path="/exercises/add">
 					<AddExercise/>
 				</Route>
