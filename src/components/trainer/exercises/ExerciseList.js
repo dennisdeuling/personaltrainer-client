@@ -67,6 +67,12 @@ class ExerciseList extends Component {
 				<Container>
 					<Row>
 						{exerciseList}
+						{/*<Button variant="primary"
+								type="submit"
+								size="lg"
+								block>
+							Submit
+						</Button>*/}
 					</Row>
 				</Container>
 			</div>
