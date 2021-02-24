@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 import {Button, Card, Form, ListGroup} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +20,7 @@ class WorkoutDetails extends Component {
 		event.preventDefault();
 		const {_id, title, description} = this.state;
 
-		/*axios.put(`http://localhost:5000/api/exercise/${_id}`, {
+		axios.put(`http://localhost:5000/api/workout/${_id}`, {
 			title,
 			description
 		}, {withCredentials: true})
@@ -29,23 +30,23 @@ class WorkoutDetails extends Component {
 				});
 			}, error => {
 				console.error(error);
-			});*/
+			});
 	};
 
 	deleteWorkout = () => {
 		const {_id} = this.state;
 
-		/*axios.delete(`http://localhost:5000/api/exercise/${_id}`, {
+		axios.delete(`http://localhost:5000/api/workout/${_id}`, {
 			withCredentials: true
 		})
 			.then(() => {
 				this.props.deleteWorkout(_id);
-				/!*this.setState({
+				/*this.setState({
 					showForm: false
-				});*!/
+				});*/
 			}, error => {
 				console.error(error);
-			});*/
+			});
 	};
 
 	handleChange = event => {
@@ -58,7 +59,8 @@ class WorkoutDetails extends Component {
 
 	render() {
 		const exerciseList = this.state.exercises.map((exercise, index) => {
-			return <ListGroup.Item key={`${exercise._id}_${index}`}>{exercise.title}</ListGroup.Item>;
+			return <ListGroup.Item
+				key={`${exercise._id}_${index}`}>{exercise.title}</ListGroup.Item>;
 		});
 		return (
 			<React.Fragment>

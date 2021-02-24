@@ -39,16 +39,16 @@ class WorkoutList extends Component {
 	};
 
 	deleteWorkout = id => {
-		/*let allExercises = this.state.listOfAllExercises.map(exercise => {
+		let allWorkouts = this.state.listOfAllWorkouts.map(exercise => {
 			return exercise;
 		});
-		const index = allExercises.findIndex(exercise => exercise._id === id);
-		allExercises = allExercises.splice(index, 1);
+		const index = allWorkouts.findIndex(exercise => exercise._id === id);
+		allWorkouts = allWorkouts.splice(index, 1);
 		this.setState({
-			listOfAllExercises: allExercises,
+			listOfAllExercises: allWorkouts,
 			deleteWorkout: true
 		});
-		this.props.history.push('/exercises');*/
+		this.props.history.push('/workouts');
 	};
 
 	render() {
