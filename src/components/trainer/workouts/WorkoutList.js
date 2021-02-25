@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import {Container, Row} from 'react-bootstrap';
+import {getExercises, getWorkouts} from '../functions/getData';
 import WorkoutDetails from './WorkoutDetails';
 
 class WorkoutList extends Component {
@@ -8,12 +8,23 @@ class WorkoutList extends Component {
 		super(props);
 		this.state = {
 			listOfAllWorkouts: [],
+			listOfAllExercises: [],
 			deleteWorkout: false
 		};
 	}
 
 	componentDidMount() {
-		this.getWorkout();
+		getWorkouts().then(result => {
+			this.setState({
+				listOfAllWorkouts: result
+			});
+		});
+
+		getExercises().then(result => {
+			this.setState({
+				listOfAllExercises: result
+			});
+		});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -24,19 +35,6 @@ class WorkoutList extends Component {
 			});
 		}
 	}
-
-	getWorkout = () => {
-		axios.get('http://localhost:5000/api/workout', {
-			withCredentials: true
-		})
-			.then(responseAPI => {
-				this.setState({
-					listOfAllWorkouts: responseAPI.data
-				});
-			}, error => {
-				console.error(error);
-			});
-	};
 
 	deleteWorkout = id => {
 		let allWorkouts = this.state.listOfAllWorkouts.map(exercise => {
@@ -52,7 +50,6 @@ class WorkoutList extends Component {
 	};
 
 	render() {
-		console.log(this.state.listOfAllWorkouts);
 		const workoutList = this.state.listOfAllWorkouts.map(workout => {
 			return <WorkoutDetails
 				key={workout._id}
