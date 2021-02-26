@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Button, Card, Form, ListGroup} from 'react-bootstrap';
+import {Button, Card, Form} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
+import WorkoutExerciseList from './WorkoutExerciseList';
 
 class WorkoutDetails extends Component {
 	constructor(props) {
@@ -11,7 +12,7 @@ class WorkoutDetails extends Component {
 			_id: this.props._id,
 			title: this.props.title,
 			description: this.props.description,
-			exercises: this.props.exercises,
+			exerciseList: this.props.exerciseList,
 			showForm: false
 		};
 	}
@@ -58,10 +59,6 @@ class WorkoutDetails extends Component {
 	};
 
 	render() {
-		const exerciseList = this.state.exercises.map((exercise, index) => {
-			return <ListGroup.Item
-				key={`${exercise._id}_${index}`}>{exercise.title}</ListGroup.Item>;
-		});
 		return (
 			<React.Fragment>
 				{this.state.showForm ?
@@ -113,16 +110,13 @@ class WorkoutDetails extends Component {
 						<Card.Body>
 							<Card.Title>{this.state.title}</Card.Title>
 							<Card.Text>{this.state.description}</Card.Text>
-							<Card.Header>Exercises</Card.Header>
-							<ListGroup variant="flush">
-								{exerciseList}
-							</ListGroup>
 							<FontAwesomeIcon
 								icon={faEdit}
 								onClick={() => this.setState({showForm: true})}/>
 							<FontAwesomeIcon
 								icon={faTrash}
 								onClick={() => this.deleteWorkout()}/>
+							<WorkoutExerciseList exerciseList={this.state.exerciseList}/>
 						</Card.Body>
 					</Card>
 				}
