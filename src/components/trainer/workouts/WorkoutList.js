@@ -24,12 +24,13 @@ class WorkoutList extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (this.state.deleteWorkout) {
-			getWorkouts().then(result => {
-				this.setState({
-					listOfAllWorkouts: result,
-					deleteWorkout: false
+			getWorkouts()
+				.then(result => {
+					this.setState({
+						listOfAllWorkouts: result,
+						deleteWorkout: false
+					});
 				});
-			});
 		}
 	}
 

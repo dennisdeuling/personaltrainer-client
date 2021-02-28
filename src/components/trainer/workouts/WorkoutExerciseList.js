@@ -8,6 +8,7 @@ class WorkoutExerciseList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			workoutId: this.props.workoutId,
 			exerciseList: this.props.exerciseList,
 			editList: this.props.editList
 		};
@@ -20,6 +21,7 @@ class WorkoutExerciseList extends Component {
 			exerciseList: exerciseList,
 			editList: true
 		});
+		this.props.getNewExerciseList(exerciseList, this.state.workoutId);
 	};
 
 	deleteExercise = (id, index) => {

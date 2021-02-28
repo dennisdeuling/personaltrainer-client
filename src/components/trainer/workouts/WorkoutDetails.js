@@ -3,7 +3,6 @@ import axios from 'axios';
 import {Button, Card, Form} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
-// import WorkoutExerciseListDetail from './WorkoutExerciseListDetail';
 import WorkoutExerciseList from './WorkoutExerciseList';
 
 class WorkoutDetails extends Component {
@@ -16,18 +15,20 @@ class WorkoutDetails extends Component {
 				description: this.props.description,
 				exerciseList: this.props.exerciseList
 			},
-			showForm: false,
-			deleteExercise: false
+			showForm: false
+			//deleteExercise: false
 		};
 	}
 
 	editWorkout = event => {
 		event.preventDefault();
-		const {_id, title, description} = this.state.workout;
+		const {_id, title, description, exerciseList: exercises} = this.state.workout;
+		console.log(_id);
 
 		axios.put(`http://localhost:5000/api/workout/${_id}`, {
 			title,
-			description
+			description,
+			exercises
 		}, {
 			withCredentials: true
 		})
@@ -54,6 +55,18 @@ class WorkoutDetails extends Component {
 			}, error => {
 				console.error(error);
 			});
+	};
+
+	getNewExerciseList = (newExerciseList, workoutId) => {
+		newExerciseList = newExerciseList.map(exercise => {
+			return {_id: exercise._id};
+		});
+		this.setState({
+			workout: {
+				_id: workoutId,
+				exerciseList: newExerciseList
+			}
+		});
 	};
 
 	handleChange = event => {
@@ -99,7 +112,9 @@ class WorkoutDetails extends Component {
 							custom
 							onChange={event => this.handleFileUpload(event)}/>*/}
 								<WorkoutExerciseList editList={this.state.showForm}
-													 exerciseList={this.state.workout.exerciseList}/>
+													 exerciseList={this.state.workout.exerciseList}
+													 workoutId={this.state.workout._id}
+													 getNewExerciseList={this.getNewExerciseList}/>
 								<Button variant="primary"
 										type="submit"
 										size="lg"
