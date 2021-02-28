@@ -3,28 +3,34 @@ import axios from 'axios';
 import {Button, Card, Form} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
+// import WorkoutExerciseListDetail from './WorkoutExerciseListDetail';
 import WorkoutExerciseList from './WorkoutExerciseList';
 
 class WorkoutDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			_id: this.props._id,
-			title: this.props.title,
-			description: this.props.description,
-			exerciseList: this.props.exerciseList,
-			showForm: false
+			workout: {
+				_id: this.props._id,
+				title: this.props.title,
+				description: this.props.description,
+				exerciseList: this.props.exerciseList
+			},
+			showForm: false,
+			deleteExercise: false
 		};
 	}
 
 	editWorkout = event => {
 		event.preventDefault();
-		const {_id, title, description} = this.state;
+		const {_id, title, description} = this.state.workout;
 
 		axios.put(`http://localhost:5000/api/workout/${_id}`, {
 			title,
 			description
-		}, {withCredentials: true})
+		}, {
+			withCredentials: true
+		})
 			.then(() => {
 				this.setState({
 					showForm: false
@@ -35,7 +41,7 @@ class WorkoutDetails extends Component {
 	};
 
 	deleteWorkout = () => {
-		const {_id} = this.state;
+		const {_id} = this.state.workout;
 
 		axios.delete(`http://localhost:5000/api/workout/${_id}`, {
 			withCredentials: true
@@ -64,7 +70,7 @@ class WorkoutDetails extends Component {
 				{this.state.showForm ?
 					<Form onSubmit={this.editWorkout}>
 						<Card style={{width: '18rem'}}>
-							<Card.Img variant="top" src={this.state.thumbImage}/>
+							<Card.Img variant="top" src={this.state.workout.thumbImage}/>
 							<Card.Body>
 								<Card.Title>
 									<Form.Group>
@@ -72,7 +78,7 @@ class WorkoutDetails extends Component {
 										<Form.Control as="textarea"
 													  rows={1}
 													  name="title"
-													  value={this.state.title}
+													  value={this.state.workout.title}
 													  onChange={event => this.handleChange(event)}/>
 									</Form.Group>
 								</Card.Title>
@@ -82,7 +88,7 @@ class WorkoutDetails extends Component {
 										<Form.Control as="textarea"
 													  rows={3}
 													  name="description"
-													  value={this.state.description}
+													  value={this.state.workout.description}
 													  onChange={event => this.handleChange(event)}/>
 									</Form.Group>
 								</Card.Text>
@@ -92,6 +98,8 @@ class WorkoutDetails extends Component {
 							data-browse="Pick the image"
 							custom
 							onChange={event => this.handleFileUpload(event)}/>*/}
+								<WorkoutExerciseList editList={this.state.showForm}
+													 exerciseList={this.state.workout.exerciseList}/>
 								<Button variant="primary"
 										type="submit"
 										size="lg"
@@ -106,17 +114,19 @@ class WorkoutDetails extends Component {
 					</Form>
 					:
 					<Card style={{width: '18rem'}}>
-						<Card.Img variant="top" src={this.state.thumbImage}/>
+						<Card.Img variant="top" src={this.state.workout.thumbImage}/>
 						<Card.Body>
-							<Card.Title>{this.state.title}</Card.Title>
-							<Card.Text>{this.state.description}</Card.Text>
+							<Card.Title>{this.state.workout.title}</Card.Title>
+							<Card.Text>{this.state.workout.description}</Card.Text>
+							<WorkoutExerciseList exerciseList={this.state.workout.exerciseList}/>
 							<FontAwesomeIcon
 								icon={faEdit}
-								onClick={() => this.setState({showForm: true})}/>
+								onClick={() => this.setState({
+									showForm: true
+								})}/>
 							<FontAwesomeIcon
 								icon={faTrash}
 								onClick={() => this.deleteWorkout()}/>
-							<WorkoutExerciseList exerciseList={this.state.exerciseList}/>
 						</Card.Body>
 					</Card>
 				}

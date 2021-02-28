@@ -16,25 +16,6 @@ class ExerciseDetails extends Component {
 		};
 	}
 
-	/*componentDidMount() {
-		const id = this.props.id;
-		axios.get(`http://localhost:5000/api/exercise/${id}`, {
-			withCredentials: true
-		})
-			.then(responseAPI => {
-				console.log(`Response from API ${responseAPI}`);
-				const {_id, title, description, thumbImage} = responseAPI.data;
-				this.setState({
-					_id: _id,
-					title: title,
-					description: description,
-					thumbImage: thumbImage
-				});
-			}, error => {
-				console.error(error);
-			});
-	}*/
-
 	editExercise = event => {
 		event.preventDefault();
 		const {_id, title, description} = this.state;

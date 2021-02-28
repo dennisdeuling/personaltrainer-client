@@ -8,23 +8,27 @@ class WorkoutList extends Component {
 		super(props);
 		this.state = {
 			listOfAllWorkouts: [],
+			listOfAllExercises: [],
 			deleteWorkout: false
 		};
 	}
 
 	componentDidMount() {
-		getWorkouts().then(result => {
-			this.setState({
-				listOfAllWorkouts: result
+		getWorkouts()
+			.then(result => {
+				this.setState({
+					listOfAllWorkouts: result
+				});
 			});
-		});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
 		if (this.state.deleteWorkout) {
-			this.getWorkout();
-			this.setState({
-				deleteWorkout: false
+			getWorkouts().then(result => {
+				this.setState({
+					listOfAllWorkouts: result,
+					deleteWorkout: false
+				});
 			});
 		}
 	}
