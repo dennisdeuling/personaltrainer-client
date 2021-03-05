@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Container, Row} from 'react-bootstrap';
-import {getWorkouts} from '../functions/getData';
+import {getExercises, getWorkouts} from '../functions/getData';
 import WorkoutDetails from './WorkoutDetails';
 
 class WorkoutList extends Component {
@@ -18,6 +18,13 @@ class WorkoutList extends Component {
 			.then(result => {
 				this.setState({
 					listOfAllWorkouts: result
+				});
+			});
+
+		getExercises()
+			.then(result => {
+				this.setState({
+					listOfAllExercises: result
 				});
 			});
 	}
@@ -55,8 +62,10 @@ class WorkoutList extends Component {
 				title={workout.title}
 				description={workout.description}
 				exerciseList={workout.exercises}
-				deleteWorkout={this.deleteWorkout}/>;
+				deleteWorkout={this.deleteWorkout}
+				listOfAllExercises={this.state.listOfAllExercises}/>;
 		});
+
 		return (
 			<div>
 				<h1>Workouts</h1>
