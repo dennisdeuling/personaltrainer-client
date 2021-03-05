@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Card, Form} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import AuthService from './auth-service';
 
 class Login extends Component {
@@ -23,8 +24,8 @@ class Login extends Component {
 					email: '',
 					password: ''
 				});
-				// this.props.getUser(response);
-				// this.props.history.push('/');
+				this.props.getUser(response);
+				//this.props.history.push('/dashboard');
 			}, error => {
 				console.log(error);
 			});
@@ -40,7 +41,7 @@ class Login extends Component {
 	render() {
 		return (
 			<div>
-				<Card style={{width: '18rem'}}>
+				<Card style={{width: '25rem'}}>
 					<Card.Body>
 						<Card.Title>Login</Card.Title>
 						<Card.Subtitle className="mb-2 text-muted">Please login</Card.Subtitle>
@@ -61,15 +62,13 @@ class Login extends Component {
 											  value={this.state.password}
 											  onChange={event => this.handleChange(event)}/>
 							</Form.Group>
-							<Form.Group>
-								<Form.Check type="checkbox" label="example"/>
-							</Form.Group>
-							<Button variant="primary" type="submit">
-								Submit
+							<Button variant="primary"
+									type="submit">
+								Log me in
 							</Button>
 						</Form>
-						<Card.Link href="#">Card Link</Card.Link>
-						<Card.Link href="#">Another Link</Card.Link>
+						<Card.Text>If you don't have an account you could create your
+							account: <Link to="/signup">here</Link></Card.Text>
 					</Card.Body>
 				</Card>
 			</div>

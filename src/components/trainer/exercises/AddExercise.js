@@ -15,7 +15,7 @@ class AddExercise extends Component {
 	handleFileUpload = event => {
 		const uploadData = new FormData();
 		uploadData.append('thumbImageUrl', event.target.files[0]);
-		axios.post('http://localhost:5000/api/upload', uploadData)
+		axios.post(`${process.env.REACT_APP_API_URL}/upload`, uploadData)
 			.then(response => {
 				console.log(`Response from API: ${response}`);
 				this.setState({
@@ -30,7 +30,7 @@ class AddExercise extends Component {
 		event.preventDefault();
 		const {title, description, thumbImage} = this.state;
 
-		axios.post('http://localhost:5000/api/exercise/create', {
+		axios.post(`${process.env.REACT_APP_API_URL}/exercise/create`, {
 			title,
 			description,
 			thumbImage

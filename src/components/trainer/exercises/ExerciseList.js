@@ -26,7 +26,7 @@ class ExerciseList extends Component {
 	}
 
 	getExercises = () => {
-		axios.get('http://localhost:5000/api/exercise', {
+		axios.get(`${process.env.REACT_APP_API_URL}/exercise`, {
 			withCredentials: true
 		})
 			.then(responseAPI => {

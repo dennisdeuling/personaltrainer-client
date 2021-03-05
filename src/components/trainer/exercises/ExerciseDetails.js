@@ -20,7 +20,7 @@ class ExerciseDetails extends Component {
 		event.preventDefault();
 		const {_id, title, description} = this.state;
 
-		axios.put(`http://localhost:5000/api/exercise/${_id}`, {
+		axios.put(`${process.env.REACT_APP_API_URL}/exercise/${_id}`, {
 			title,
 			description
 		}, {withCredentials: true})
@@ -36,7 +36,7 @@ class ExerciseDetails extends Component {
 	deleteExercise = () => {
 		const {_id} = this.state;
 
-		axios.delete(`http://localhost:5000/api/exercise/${_id}`, {
+		axios.delete(`${process.env.REACT_APP_API_URL}/exercise/${_id}`, {
 			withCredentials: true
 		})
 			.then(() => {

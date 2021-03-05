@@ -25,7 +25,7 @@ class WorkoutDetails extends Component {
 		const {_id, title, description, exerciseList: exercises} = this.state.workout;
 		console.log(_id);
 
-		axios.put(`http://localhost:5000/api/workout/${_id}`, {
+		axios.put(`${process.env.REACT_APP_API_URL}/workout/${_id}`, {
 			title,
 			description,
 			exercises
@@ -44,7 +44,7 @@ class WorkoutDetails extends Component {
 	deleteWorkout = () => {
 		const {_id} = this.state.workout;
 
-		axios.delete(`http://localhost:5000/api/workout/${_id}`, {
+		axios.delete(`${process.env.REACT_APP_API_URL}/workout/${_id}`, {
 			withCredentials: true
 		})
 			.then(() => {
