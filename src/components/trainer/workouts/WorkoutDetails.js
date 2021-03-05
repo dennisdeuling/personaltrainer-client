@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Button, Card, Form} from 'react-bootstrap';
+import {Button, Card, Form, ListGroup} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
-import WorkoutExerciseList from './WorkoutExerciseList';
 
 class WorkoutDetails extends Component {
 	constructor(props) {
@@ -69,6 +68,17 @@ class WorkoutDetails extends Component {
 		});
 	};
 
+	deleteExercise = (id, index) => {
+		let exerciseList = [...this.state.workout.exerciseList];
+		exerciseList = exerciseList.filter((exercise, idx) => idx !== index);
+
+		this.setState({
+			workout: {
+				exerciseList: exerciseList
+			}
+		});
+	};
+
 	handleChange = event => {
 		const {name, value} = event.target;
 
@@ -78,6 +88,23 @@ class WorkoutDetails extends Component {
 	};
 
 	render() {
+		const exerciseList = this.state.workout.exerciseList.map((exercise, index) => {
+			return (
+				<div>
+					<ListGroup.Item>
+						{exercise.title}
+						{this.state.showForm ?
+							<FontAwesomeIcon
+								icon={faTrash}
+								onClick={() => this.deleteExercise(exercise._id, index)}/>
+							:
+							null}
+					</ListGroup.Item>
+				</div>
+			);
+		});
+
+
 		return (
 			<React.Fragment>
 				{this.state.showForm ?
@@ -105,16 +132,19 @@ class WorkoutDetails extends Component {
 													  onChange={event => this.handleChange(event)}/>
 									</Form.Group>
 								</Card.Text>
+
 								{/*<Form.File
 							id="thumbImage"
 							label={'Upload an image file'}
 							data-browse="Pick the image"
 							custom
 							onChange={event => this.handleFileUpload(event)}/>*/}
-								<WorkoutExerciseList editList={this.state.showForm}
-													 exerciseList={this.state.workout.exerciseList}
-													 workoutId={this.state.workout._id}
-													 getNewExerciseList={this.getNewExerciseList}/>
+								<Card.Header>Exercises:</Card.Header>
+								<ListGroup variant="flush">
+									<ListGroup.Item>
+										{exerciseList}
+									</ListGroup.Item>
+								</ListGroup>
 								<Button variant="primary"
 										type="submit"
 										size="lg"
@@ -133,7 +163,12 @@ class WorkoutDetails extends Component {
 						<Card.Body>
 							<Card.Title>{this.state.workout.title}</Card.Title>
 							<Card.Text>{this.state.workout.description}</Card.Text>
-							<WorkoutExerciseList exerciseList={this.state.workout.exerciseList}/>
+							<Card.Header>Exercises:</Card.Header>
+							<ListGroup variant="flush">
+								<ListGroup.Item>
+									{exerciseList}
+								</ListGroup.Item>
+							</ListGroup>
 							<FontAwesomeIcon
 								icon={faEdit}
 								onClick={() => this.setState({
