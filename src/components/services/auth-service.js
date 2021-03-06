@@ -8,9 +8,9 @@ class AuthService {
 		});
 	}
 
-	signup = (username, email, password) => {
+	signup = (username, email, password, userGroup) => {
 		return this.service.post(`${process.env.REACT_APP_API_URL}/signup`, {
-			username, email, password
+			username, email, password, userGroup
 		})
 			.then(response => response.data);
 	};

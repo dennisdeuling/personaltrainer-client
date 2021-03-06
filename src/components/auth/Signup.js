@@ -11,29 +11,35 @@ class Login extends Component {
 		this.state = {
 			username: '',
 			email: '',
-			password: ''
+			password: '',
+			userGroup: ''
 		};
 	}
 
 	handleFormSubmit = event => {
 		event.preventDefault();
-		const {username, email, password} = this.state;
-		console.log(`Username: ${username}, email: ${email}, password: ${password}`);
+		const {username, email, password, userGroup} = this.state;
 
-		this.service.signup(username, email, password)
+		this.service.signup(username, email, password, userGroup)
 			.then(response => {
 				this.setState({
 					username: '',
 					email: '',
-					password: ''
+					password: '',
+					userGroup: ''
 				});
 				this.props.getUser(response);
-				//this.props.history.push('/');
+
+				if (response.userGroup === 'trainer') {
+					this.props.history.push('/profile');
+				}
+				if (response.userGroup === 'client') {
+					this.props.history.push('/dashboard');
+				}
 			}, error => {
 				console.log(error);
 			});
 	};
-
 
 	handleChange = event => {
 		const {name, value} = event.target;
@@ -77,13 +83,15 @@ class Login extends Component {
 							</Form.Group>
 							<Form.Group>
 								<Form.Check type="radio"
-											name="client-trainer"
+											name="userGroup"
 											value="client"
-											label="I'm a client and my trainer use this app"/>
+											label="I'm a client and my trainer use this app"
+											onChange={event => this.handleChange(event)}/>
 								<Form.Check type="radio"
-											name="client-trainer"
+											name="userGroup"
 											value="trainer"
-											label="I'm a trainer and I would like to train my clients"/>
+											label="I'm a trainer and I would like to train my clients"
+											onChange={event => this.handleChange(event)}/>
 							</Form.Group>
 							<Button variant="primary"
 									type="submit">
