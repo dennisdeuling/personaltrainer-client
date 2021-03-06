@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Card, Form} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import AuthService from './auth-service';
+import AuthService from '../services/auth-service';
 
 class Login extends Component {
 	service = new AuthService();

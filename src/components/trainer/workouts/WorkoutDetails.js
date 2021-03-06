@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Button, Card, Form, ListGroup} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faPlusSquare, faTrash} from '@fortawesome/free-solid-svg-icons';
-import {getExercises} from '../functions/getData';
+import {getExercises} from '../../services/data-service';
 
 class WorkoutDetails extends Component {
 	constructor(props) {

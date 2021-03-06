@@ -14,4 +14,11 @@ async function getExercises() {
 	return exercises.data;
 };
 
-export {getWorkouts, getExercises};
+async function getTrainer() {
+	const trainers = await axios.get(`${process.env.REACT_APP_API_URL}/trainer`, {
+		withCredentials: true
+	});
+	return trainers.data;
+};
+
+export {getWorkouts, getExercises, getTrainer};

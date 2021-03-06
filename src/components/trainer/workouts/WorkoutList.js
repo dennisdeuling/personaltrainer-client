@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Container, Row} from 'react-bootstrap';
-import {getExercises, getWorkouts} from '../functions/getData';
+import {getExercises, getWorkouts} from '../../services/data-service';
 import WorkoutDetails from './WorkoutDetails';
 
 class WorkoutList extends Component {
