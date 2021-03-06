@@ -8,6 +8,7 @@ import WorkoutList from './components/trainer/workouts/WorkoutList';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import Dashboard from './components/clients/Dashboard';
+import Navbar from './components/Navigation';
 
 class App extends Component {
 	constructor(props) {
@@ -26,13 +27,15 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
+				<Navbar/>
 				<Switch>
 					<Route exact
 						   path="/exercises"
 						   render={props => <ExerciseList {...props} />}/>
-					<Route exact path="/exercises/add">
-						<AddExercise/>
-					</Route>
+					<Route exact
+						   path="/exercises/add"
+						   render={props => <AddExercise {...props} />}/>
+
 					<Route exact
 						   path="/workouts"
 						   render={props => <WorkoutList {...props} />}/>
