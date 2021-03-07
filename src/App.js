@@ -1,14 +1,16 @@
 import './App.css';
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Route, Switch} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import ExerciseList from './components/trainer/exercises/ExerciseList';
 import AddExercise from './components/trainer/exercises/AddExercise';
 import WorkoutList from './components/trainer/workouts/WorkoutList';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import Dashboard from './components/clients/Dashboard';
-import Navbar from './components/Navigation';
+import Profile from './components/trainer/profile/Profile';
+import Navigation from './components/Navigation';
+import ProtectedRoute from './components/auth/protected-route';
 
 class App extends Component {
 	constructor(props) {
@@ -27,9 +29,33 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<Navbar/>
+				{this.state.loggedInUser !== null &&
+				<Navigation user={this.state.loggedInUser} getUser={this.getTheUser}/>}
 				<Switch>
-					<Route exact
+					<ProtectedRoute exact
+									user={this.state.loggedInUser}
+									path="/exercises"
+									component={ExerciseList}/>
+
+					<ProtectedRoute exact
+									user={this.state.loggedInUser}
+									path="/exercises/add"
+									component={AddExercise}/>
+					<ProtectedRoute exact
+									user={this.state.loggedInUser}
+									path="/workouts"
+									component={WorkoutList}/>
+
+					<ProtectedRoute exact
+									user={this.state.loggedInUser}
+									path="/dashboard"
+									component={Dashboard}/>
+
+					<ProtectedRoute exact
+									user={this.state.loggedInUser}
+									path="/profile"
+									component={Profile}/>
+					{/*	<Route exact
 						   path="/exercises"
 						   render={props => <ExerciseList {...props} />}/>
 					<Route exact
@@ -40,10 +66,18 @@ class App extends Component {
 						   path="/workouts"
 						   render={props => <WorkoutList {...props} />}/>
 
-
 					<Route exact
 						   path="/dashboard"
 						   render={props => <Dashboard {...props} />}/>
+
+					<Route exact
+						   path="/profile"
+						   render={props => <Profile {...props} />}/>*/}
+
+					<Route exact
+						   path="/">
+						<Redirect to="/login"/>
+					</Route>
 
 					<Route exact
 						   path="/login"

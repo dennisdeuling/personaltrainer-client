@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {Card} from 'react-bootstrap';
+import {Button, Card} from 'react-bootstrap';
 import {getTrainer} from '../services/data-service';
+import {faThumbsUp} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class ListOfTrainers extends Component {
 	constructor(props) {
@@ -33,6 +35,10 @@ class ListOfTrainers extends Component {
 							of
 							the card's content.
 						</Card.Text>
+						<Button variant="primary">
+							<FontAwesomeIcon
+								icon={faThumbsUp}/>
+						</Button>
 					</Card.Body>
 				</Card>
 			);

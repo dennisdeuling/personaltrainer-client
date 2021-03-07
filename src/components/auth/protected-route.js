@@ -1,7 +1,7 @@
 import React from 'react';
 import {Redirect, Route} from 'react-router-dom';
 
-const protectedRoute = ({Componen: component, user, ...rest}) => {
+const protectedRoute = ({component: Component, user, ...rest}) => {
 	console.log({component: Component, user, ...rest});
 	return (
 		<Route
@@ -17,4 +17,4 @@ const protectedRoute = ({Componen: component, user, ...rest}) => {
 	);
 };
 
-export default protectedRoute();
+export default protectedRoute;

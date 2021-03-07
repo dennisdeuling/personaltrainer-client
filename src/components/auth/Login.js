@@ -25,7 +25,14 @@ class Login extends Component {
 					password: ''
 				});
 				this.props.getUser(response);
-				//this.props.history.push('/dashboard');
+
+				if (response.userGroup === 'trainer') {
+					this.props.history.push('/profile');
+				}
+
+				if (response.userGroup === 'client') {
+					this.props.history.push('/dashboard');
+				}
 			}, error => {
 				console.log(error);
 			});
