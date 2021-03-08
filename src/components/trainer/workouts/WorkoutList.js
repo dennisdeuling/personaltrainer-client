@@ -24,7 +24,7 @@ class WorkoutList extends Component {
 				this.setState({
 					user: {
 						loggedIn: this.props.user,
-						workouts: workouts
+						workouts: workouts.workouts
 					}
 				});
 			});

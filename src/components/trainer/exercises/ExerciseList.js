@@ -2,18 +2,33 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {Container, Row} from 'react-bootstrap';
 import ExerciseDetails from './ExerciseDetails';
+import {getUserById} from '../../services/data-service';
 
 class ExerciseList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			user: {
+				loggedIn: '',
+				exercises: ''
+			},
 			listOfAllExercises: [],
 			deleteExercise: false
 		};
 	}
 
 	componentDidMount() {
-		this.getExercises();
+		const {_id: trainerId} = this.props.user;
+		getUserById(trainerId)
+			.then(exercises => {
+				console.log(exercises);
+				this.setState({
+					user: {
+						loggedIn: this.props.user,
+						exercises: exercises.exercises
+					}
+				});
+			});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -52,15 +67,19 @@ class ExerciseList extends Component {
 	};
 
 	render() {
-		const exerciseList = this.state.listOfAllExercises.map(exercise => {
-			return <ExerciseDetails
-				key={exercise._id}
-				_id={exercise._id}
-				thumbImage={exercise.thumbImage}
-				title={exercise.title}
-				description={exercise.description}
-				deleteExercise={this.deleteExercise}/>;
-		});
+		let exerciseList = this.state.user.exercises;
+
+		if (exerciseList.length > 0) {
+			exerciseList = exerciseList.map(exercise => {
+				return <ExerciseDetails
+					key={exercise._id}
+					_id={exercise._id}
+					thumbImage={exercise.thumbImage}
+					title={exercise.title}
+					description={exercise.description}
+					deleteExercise={this.deleteExercise}/>;
+			});
+		}
 		return (
 			<div>
 				<h1>Exercises</h1>
