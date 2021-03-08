@@ -9,9 +9,9 @@ class WorkoutList extends Component {
 		this.state = {
 			user: {
 				loggedIn: '',
-				dataDB: ''
+				workouts: ''
 			},
-			// listOfAllWorkouts: [],
+			listOfAllWorkouts: [],
 			listOfAllExercises: [],
 			deleteWorkout: false
 		};
@@ -20,11 +20,11 @@ class WorkoutList extends Component {
 	componentDidMount() {
 		const {_id: trainerId} = this.props.user;
 		getUserById(trainerId)
-			.then(trainer => {
+			.then(workouts => {
 				this.setState({
 					user: {
 						loggedIn: this.props.user,
-						dataDB: trainer
+						workouts: workouts
 					}
 				});
 			});
@@ -70,9 +70,9 @@ class WorkoutList extends Component {
 	};
 
 	render() {
-		let workoutList = '';
-		if (this.state.user.dataDB.workouts !== undefined) {
-			workoutList = this.state.user.dataDB.workouts.map(workout => {
+		let workouts = this.state.user.workouts.workouts;
+		if (workouts !== undefined) {
+			workouts = workouts.map(workout => {
 				return <WorkoutDetails
 					key={workout._id}
 					_id={workout._id}
@@ -89,7 +89,7 @@ class WorkoutList extends Component {
 				<h1>Workouts</h1>
 				<Container>
 					<Row>
-						{workoutList}
+						{workouts}
 						{/*<Button variant="primary"
 								type="submit"
 								size="lg"

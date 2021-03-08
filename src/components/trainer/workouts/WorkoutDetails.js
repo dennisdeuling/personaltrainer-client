@@ -3,17 +3,17 @@ import axios from 'axios';
 import {Button, Card, Form, ListGroup} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faPlusSquare, faTrash} from '@fortawesome/free-solid-svg-icons';
-import {getExercises} from '../../services/data-service';
+import {getExerciseById, getExercises} from '../../services/data-service';
 
 class WorkoutDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			workout: {
-				_id: this.props._id,
-				title: this.props.title,
-				description: this.props.description,
-				exerciseList: this.props.exerciseList
+				_id: '',
+				title: '',
+				description: '',
+				exerciseList: []
 			},
 			addExercise: {
 				_id: '',
@@ -26,6 +26,21 @@ class WorkoutDetails extends Component {
 	}
 
 	componentDidMount() {
+		this.props.exerciseList.map(exerciseId => {
+			getExerciseById(exerciseId)
+				.then(exercise => {
+					this.setState({
+						workout: {
+							_id: this.props._id,
+							title: this.props.title,
+							description: this.props.description,
+							exerciseList: [...this.state.workout.exerciseList, exercise]
+						}
+
+					});
+				});
+		});
+
 		getExercises()
 			.then(result => {
 				this.setState({
@@ -129,29 +144,30 @@ class WorkoutDetails extends Component {
 	};
 
 	render() {
-		const exerciseList = this.state.workout.exerciseList.map((exercise, index) => {
-			return (
-				<div>
-					<ListGroup.Item>
-						{exercise.title}
-						{this.state.showForm ?
-							<FontAwesomeIcon
-								icon={faTrash}
-								onClick={() => this.deleteExercise(index)}/>
-							:
-							null}
-					</ListGroup.Item>
-				</div>
-			);
-		});
+		let exerciseList = this.state.workout.exerciseList;
+
+		if (exerciseList.length > 0) {
+			exerciseList = exerciseList.map((exercise, index) => {
+				return (
+					<div>
+						<ListGroup.Item>
+							{exercise.title}
+							{this.state.showForm ?
+								<FontAwesomeIcon
+									icon={faTrash}
+									onClick={() => this.deleteExercise(index)}/>
+								:
+								null}
+						</ListGroup.Item>
+					</div>
+				);
+			});
+		}
 
 		const optionExerciseList = this.state.listOfAllExercises.map(exercise => {
 			const {_id, title} = exercise;
 			return <option value={`${_id},${title}`}>{title}</option>;
 		});
-
-		// console.log(this.state.listOfAllExercises);
-		// console.log(this.state.addExercise);
 
 		return (
 			<React.Fragment>
