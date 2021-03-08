@@ -3,11 +3,13 @@ import {Button, Card} from 'react-bootstrap';
 import {getTrainer} from '../services/data-service';
 import {faThumbsUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 
 class ListOfTrainers extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			user: this.props.user,
 			trainerList: []
 		};
 	}
@@ -23,6 +25,20 @@ class ListOfTrainers extends Component {
 			});
 	}
 
+	selectTrainer = trainerId => {
+		const {_id: userId} = this.state.user;
+		const trainer = trainerId;
+
+		axios.put(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
+			trainer
+		}, {withCredentials: true})
+			.then(() => {
+
+			}, error => {
+				console.error(error);
+			});
+	};
+
 	render() {
 		const trainerList = this.state.trainerList.map(trainer => {
 			return (
@@ -37,7 +53,8 @@ class ListOfTrainers extends Component {
 						</Card.Text>
 						<Button variant="primary">
 							<FontAwesomeIcon
-								icon={faThumbsUp}/>
+								icon={faThumbsUp}
+								onClick={() => this.selectTrainer(trainer._id)}/>
 						</Button>
 					</Card.Body>
 				</Card>

@@ -1,23 +1,31 @@
 import React, {Component} from 'react';
 import {Container, Row} from 'react-bootstrap';
-import {getExercises, getWorkouts} from '../../services/data-service';
+import {getExercises, getUserById} from '../../services/data-service';
 import WorkoutDetails from './WorkoutDetails';
 
 class WorkoutList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			listOfAllWorkouts: [],
+			user: {
+				loggedIn: '',
+				dataDB: ''
+			},
+			// listOfAllWorkouts: [],
 			listOfAllExercises: [],
 			deleteWorkout: false
 		};
 	}
 
 	componentDidMount() {
-		getWorkouts()
-			.then(result => {
+		const {_id: trainerId} = this.props.user;
+		getUserById(trainerId)
+			.then(trainer => {
 				this.setState({
-					listOfAllWorkouts: result
+					user: {
+						loggedIn: this.props.user,
+						dataDB: trainer
+					}
 				});
 			});
 
@@ -27,17 +35,24 @@ class WorkoutList extends Component {
 					listOfAllExercises: result
 				});
 			});
+
+		/*getWorkouts()
+			.then(result => {
+				this.setState({
+					listOfAllWorkouts: result
+				});
+			});*/
 	}
 
 	componentDidUpdate(prevProps, prevState) {
 		if (this.state.deleteWorkout) {
-			getWorkouts()
+			/*getWorkouts()
 				.then(result => {
 					this.setState({
 						listOfAllWorkouts: result,
 						deleteWorkout: false
 					});
-				});
+				});*/
 		}
 	}
 
@@ -55,16 +70,19 @@ class WorkoutList extends Component {
 	};
 
 	render() {
-		const workoutList = this.state.listOfAllWorkouts.map(workout => {
-			return <WorkoutDetails
-				key={workout._id}
-				_id={workout._id}
-				title={workout.title}
-				description={workout.description}
-				exerciseList={workout.exercises}
-				deleteWorkout={this.deleteWorkout}
-				listOfAllExercises={this.state.listOfAllExercises}/>;
-		});
+		let workoutList = '';
+		if (this.state.user.dataDB.workouts !== undefined) {
+			workoutList = this.state.user.dataDB.workouts.map(workout => {
+				return <WorkoutDetails
+					key={workout._id}
+					_id={workout._id}
+					title={workout.title}
+					description={workout.description}
+					exerciseList={workout.exercises}
+					deleteWorkout={this.deleteWorkout}
+					listOfAllExercises={this.state.listOfAllExercises}/>;
+			});
+		}
 
 		return (
 			<div>

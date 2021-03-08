@@ -56,7 +56,17 @@ class Navigation extends Component {
 				<Nav variant="tabs" defaultActiveKey="/dashboard">
 					<Nav.Item>
 						<Nav.Link href="/dashboard">
-							<Link to="/dashboard">Trainerlist</Link>
+							<Link to="/dashboard">Dashboard</Link>
+						</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link href="/trainer">
+							<Link to="/trainer">List Personaltrainer</Link>
+						</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link href="/my-workouts">
+							<Link to="/my-workouts">My workouts</Link>
 						</Nav.Link>
 					</Nav.Item>
 					<Nav.Item>

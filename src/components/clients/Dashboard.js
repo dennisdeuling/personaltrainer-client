@@ -1,21 +1,38 @@
 import React, {Component} from 'react';
-import ListOfTrainers from './ListOfTrainers';
+import {getUserById} from '../services/data-service';
 
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			user: {
+				loggedIn: '',
+				userDB: ''
+			}
+
+		};
 	}
 
 	componentDidMount() {
-
+		const {_id: userId} = this.props.user;
+		getUserById(userId)
+			.then(response => {
+				this.setState({
+					user: {
+						loggedIn: this.props.user,
+						userDB: response
+					}
+				});
+				console.log(response);
+			}, error => {
+				console.log(error);
+			});
 	}
 
 	render() {
 		return (
 			<div>
-				<h1>I'm a test</h1>
-				<ListOfTrainers/>
+
 			</div>
 		);
 	}

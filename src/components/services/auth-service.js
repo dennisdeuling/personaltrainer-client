@@ -22,6 +22,11 @@ class AuthService {
 			.then(response => response.data);
 	};
 
+	isLoggedIn = () => {
+		return this.service.get(`${process.env.REACT_APP_API_URL}/loggedin`)
+			.then(response => response.data);
+	};
+
 	logout = () => {
 		return this.service.post(`${process.env.REACT_APP_API_URL}/logout`, {})
 			.then(response => response.data);

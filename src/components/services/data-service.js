@@ -15,10 +15,17 @@ async function getExercises() {
 };
 
 async function getTrainer() {
-	const trainers = await axios.get(`${process.env.REACT_APP_API_URL}/trainer`, {
+	const trainers = await axios.get(`${process.env.REACT_APP_API_URL}/user/trainer`, {
 		withCredentials: true
 	});
 	return trainers.data;
 };
 
-export {getWorkouts, getExercises, getTrainer};
+async function getUserById(userId) {
+	const user = await axios.get(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
+		withCredentials: true
+	});
+	return user.data;
+};
+
+export {getWorkouts, getExercises, getTrainer, getUserById};

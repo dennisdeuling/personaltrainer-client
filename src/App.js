@@ -4,20 +4,38 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Redirect, Route, Switch} from 'react-router-dom';
 import ExerciseList from './components/trainer/exercises/ExerciseList';
 import AddExercise from './components/trainer/exercises/AddExercise';
-import WorkoutList from './components/trainer/workouts/WorkoutList';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import Dashboard from './components/clients/Dashboard';
 import Profile from './components/trainer/profile/Profile';
 import Navigation from './components/Navigation';
 import ProtectedRoute from './components/auth/protected-route';
+import AuthService from './components/services/auth-service';
+import ListOfTrainers from './components/clients/ListOfTrainers';
+import TrainerWorkoutList from './components/trainer/workouts/WorkoutList';
+import ClientWorkoutList from './components/clients/WorkoutList';
 
 class App extends Component {
+	service = new AuthService();
+
 	constructor(props) {
 		super(props);
 		this.state = {
 			loggedInUser: null
 		};
+	}
+
+	componentDidMount() {
+		this.service.isLoggedIn()
+			.then(userObj => {
+				this.setState({
+					loggedInUser: userObj
+				});
+			}, error => {
+				this.setState({
+					loggedInUser: null
+				});
+			});
 	}
 
 	getTheUser = userObj => {
@@ -32,11 +50,16 @@ class App extends Component {
 				{this.state.loggedInUser !== null &&
 				<Navigation user={this.state.loggedInUser} getUser={this.getTheUser}/>}
 				<Switch>
+
+					{/*Routes for trainers*/}
+					<ProtectedRoute exact
+									user={this.state.loggedInUser}
+									path="/profile"
+									component={Profile}/>
 					<ProtectedRoute exact
 									user={this.state.loggedInUser}
 									path="/exercises"
 									component={ExerciseList}/>
-
 					<ProtectedRoute exact
 									user={this.state.loggedInUser}
 									path="/exercises/add"
@@ -44,36 +67,23 @@ class App extends Component {
 					<ProtectedRoute exact
 									user={this.state.loggedInUser}
 									path="/workouts"
-									component={WorkoutList}/>
+									component={TrainerWorkoutList}/>
 
+					{/*Routes for clients*/}
 					<ProtectedRoute exact
 									user={this.state.loggedInUser}
 									path="/dashboard"
 									component={Dashboard}/>
-
 					<ProtectedRoute exact
 									user={this.state.loggedInUser}
-									path="/profile"
-									component={Profile}/>
-					{/*	<Route exact
-						   path="/exercises"
-						   render={props => <ExerciseList {...props} />}/>
-					<Route exact
-						   path="/exercises/add"
-						   render={props => <AddExercise {...props} />}/>
+									path="/trainer"
+									component={ListOfTrainers}/>
+					<ProtectedRoute exact
+									user={this.state.loggedInUser}
+									path="/my-workouts"
+									component={ClientWorkoutList}/>
 
-					<Route exact
-						   path="/workouts"
-						   render={props => <WorkoutList {...props} />}/>
-
-					<Route exact
-						   path="/dashboard"
-						   render={props => <Dashboard {...props} />}/>
-
-					<Route exact
-						   path="/profile"
-						   render={props => <Profile {...props} />}/>*/}
-
+					{/*Routes for login and auth*/}
 					<Route exact
 						   path="/">
 						<Redirect to="/login"/>
