@@ -35,13 +35,6 @@ class WorkoutList extends Component {
 					listOfAllExercises: result
 				});
 			});
-
-		/*getWorkouts()
-			.then(result => {
-				this.setState({
-					listOfAllWorkouts: result
-				});
-			});*/
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -70,8 +63,9 @@ class WorkoutList extends Component {
 	};
 
 	render() {
-		let workouts = this.state.user.workouts.workouts;
-		if (workouts !== undefined) {
+		let workouts = this.state.user.workouts;
+
+		if (workouts.length > 0) {
 			workouts = workouts.map(workout => {
 				return <WorkoutDetails
 					key={workout._id}
