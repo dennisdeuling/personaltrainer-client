@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {Button, Card} from 'react-bootstrap';
-import {getTrainer} from '../services/data-service';
+import {getTrainer, userModelPushArray} from '../services/data-service';
 import {faThumbsUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 
 class ListOfTrainers extends Component {
 	constructor(props) {
@@ -29,14 +28,11 @@ class ListOfTrainers extends Component {
 		const {_id: userId} = this.state.user;
 		const trainer = trainerId;
 
-		axios.put(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
-			trainer
-		}, {withCredentials: true})
-			.then(() => {
-
-			}, error => {
-				console.error(error);
+		userModelPushArray(userId, trainer, trainerId)
+			.then(result => {
+				//console.log(result);
 			});
+
 	};
 
 	render() {

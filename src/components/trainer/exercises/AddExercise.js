@@ -1,14 +1,20 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {Button, Form} from 'react-bootstrap';
+import {createExercise, userModelPushArray} from '../../services/data-service';
 
 class AddExercise extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: '',
-			description: '',
-			thumbImage: ''
+			user: {
+				loggedIn: this.props.user
+			},
+			exercise: {
+				title: '',
+				description: '',
+				thumbImage: ''
+			}
 		};
 	}
 
@@ -19,7 +25,9 @@ class AddExercise extends Component {
 			.then(response => {
 				console.log(`Response from API: ${response}`);
 				this.setState({
-					thumbImage: response.data.thumbImageUrl
+					exercise: {
+						thumbImage: response.data.thumbImageUrl
+					}
 				});
 			}, error => {
 				console.error(error);
@@ -28,21 +36,19 @@ class AddExercise extends Component {
 
 	handleFormSubmit = event => {
 		event.preventDefault();
-		const {title, description, thumbImage} = this.state;
+		const {title, description, thumbImage} = this.state.exercise;
+		console.log(this.state.exercise);
 
-		axios.post(`${process.env.REACT_APP_API_URL}/exercise/create`, {
-			title,
-			description,
-			thumbImage
-		}, {withCredentials: true})
+		createExercise(title, description, thumbImage)
 			.then(result => {
-				this.setState({
-					title: '',
-					description: '',
-					thumbImage: ''
-				});
-			}, error => {
-				console.error(error);
+				const model = 'exercises';
+				const {_id: dataId} = result;
+				const {_id: userId} = this.state.user.loggedIn;
+
+				userModelPushArray(userId, model, dataId)
+					.then(result => {
+						console.log(result);
+					});
 			});
 	};
 
@@ -50,7 +56,10 @@ class AddExercise extends Component {
 		const {name, value} = event.target;
 
 		this.setState({
-			[name]: value
+			exercise: {
+				...this.state.exercise,
+				[name]: value
+			}
 		});
 	};
 
@@ -65,7 +74,7 @@ class AddExercise extends Component {
 						<Form.Control as="textarea"
 									  rows={1}
 									  name="title"
-									  value={this.state.title}
+									  value={this.state.exercise.title}
 									  onChange={event => this.handleChange(event)}/>
 					</Form.Group>
 					<Form.Group>
@@ -73,7 +82,7 @@ class AddExercise extends Component {
 						<Form.Control as="textarea"
 									  rows={3}
 									  name="description"
-									  value={this.state.description}
+									  value={this.state.exercise.description}
 									  onChange={event => this.handleChange(event)}/>
 					</Form.Group>
 					<Form.File

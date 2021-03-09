@@ -41,6 +41,11 @@ class Navigation extends Component {
 						</Nav.Link>
 					</Nav.Item>
 					<Nav.Item>
+						<Nav.Link href="/workouts/add">
+							<Link to="/workouts/add">Add Workout</Link>
+						</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
 						<Nav.Link href="/exercises/add">
 							<Link to="/exercises/add">Add Exercise</Link>
 						</Nav.Link>

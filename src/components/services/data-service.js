@@ -35,4 +35,33 @@ async function getUserById(userId) {
 	return user.data;
 };
 
-export {getWorkouts, getExercises, getTrainer, getUserById, getExerciseById};
+async function createExercise(title, description, thumbImage) {
+	const newExercise = await axios.post(`${process.env.REACT_APP_API_URL}/exercise/create`, {
+		title,
+		description,
+		thumbImage
+	}, {
+		withCredentials: true
+	});
+	return newExercise.data;
+}
+
+async function userModelPushArray(userId, model, dataId) {
+	const user = await axios.put(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
+		model,
+		dataId
+	}, {
+		withCredentials: true
+	});
+	return user.data;
+}
+
+export {
+	getWorkouts,
+	getExercises,
+	getTrainer,
+	getUserById,
+	getExerciseById,
+	createExercise,
+	userModelPushArray
+};

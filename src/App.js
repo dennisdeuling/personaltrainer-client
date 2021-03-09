@@ -14,6 +14,7 @@ import AuthService from './components/services/auth-service';
 import ListOfTrainers from './components/clients/ListOfTrainers';
 import TrainerWorkoutList from './components/trainer/workouts/WorkoutList';
 import ClientWorkoutList from './components/clients/WorkoutList';
+import AddWorkout from './components/trainer/workouts/AddWorkout';
 
 class App extends Component {
 	service = new AuthService();
@@ -68,6 +69,10 @@ class App extends Component {
 									user={this.state.loggedInUser}
 									path="/workouts"
 									component={TrainerWorkoutList}/>
+					<ProtectedRoute exact
+									user={this.state.loggedInUser}
+									path="/workouts/add"
+									component={AddWorkout}/>
 
 					{/*Routes for clients*/}
 					<ProtectedRoute exact
