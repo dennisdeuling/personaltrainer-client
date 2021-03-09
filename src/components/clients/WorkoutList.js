@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {getUserById} from '../services/data-service';
 import WorkoutDetails from '../trainer/workouts/WorkoutDetails';
+import {Container, Row} from 'react-bootstrap';
 
 class WorkoutList extends Component {
 	constructor(props) {
@@ -28,6 +29,7 @@ class WorkoutList extends Component {
 				user.trainer.map(trainerId => {
 					getUserById(trainerId)
 						.then(workouts => {
+							workouts = workouts.workouts;
 							this.setState({
 								workouts: [...this.state.workouts, ...workouts]
 							});
@@ -46,11 +48,23 @@ class WorkoutList extends Component {
 				_id={workout._id}
 				title={workout.title}
 				description={workout.description}
-				exerciseList={workout.exercises}/>;
+				exerciseList={workout.exercises}
+				userGroup={this.state.user.loggedIn.userGroup}/>;
 		});
 		return (
 			<div>
-				{workoutList}
+				<h1>Workouts</h1>
+				<Container>
+					<Row>
+						{workoutList}
+						{/*<Button variant="primary"
+								type="submit"
+								size="lg"
+								block>
+							Submit
+						</Button>*/}
+					</Row>
+				</Container>
 			</div>
 		);
 	}

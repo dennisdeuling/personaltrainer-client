@@ -9,6 +9,9 @@ class WorkoutDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			user: {
+				userGroup: this.props.userGroup
+			},
 			workout: {
 				_id: '',
 				title: '',
@@ -144,6 +147,7 @@ class WorkoutDetails extends Component {
 	};
 
 	render() {
+		const userGroup = this.state.user.userGroup;
 		let exerciseList = this.state.workout.exerciseList;
 
 		if (exerciseList.length > 0) {
@@ -246,14 +250,17 @@ class WorkoutDetails extends Component {
 									{exerciseList}
 								</ListGroup.Item>
 							</ListGroup>
+							{userGroup === 'trainer' &&
 							<FontAwesomeIcon
 								icon={faEdit}
 								onClick={() => this.setState({
 									showForm: true
-								})}/>
+								})}/>}
+							{userGroup === 'trainer' &&
 							<FontAwesomeIcon
 								icon={faTrash}
 								onClick={() => this.deleteWorkout()}/>
+							}
 						</Card.Body>
 					</Card>
 				}

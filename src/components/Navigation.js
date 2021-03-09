@@ -25,11 +25,11 @@ class Navigation extends Component {
 			<div>
 				{this.state.loggedInUser.userGroup === 'trainer' &&
 				<Nav variant="tabs" defaultActiveKey="/profile">
-					<Nav.Item>
+					{/*<Nav.Item>
 						<Nav.Link href="/profile">
 							<Link to="/profile">Profile</Link>
 						</Nav.Link>
-					</Nav.Item>
+					</Nav.Item>*/}
 					<Nav.Item>
 						<Nav.Link href="/workouts">
 							<Link to="/workouts">Workouts</Link>
@@ -54,11 +54,11 @@ class Navigation extends Component {
 				}
 				{this.state.loggedInUser.userGroup === 'client' &&
 				<Nav variant="tabs" defaultActiveKey="/dashboard">
-					<Nav.Item>
+					{/*<Nav.Item>
 						<Nav.Link href="/dashboard">
 							<Link to="/dashboard">Dashboard</Link>
 						</Nav.Link>
-					</Nav.Item>
+					</Nav.Item>*/}
 					<Nav.Item>
 						<Nav.Link href="/trainer">
 							<Link to="/trainer">List Personaltrainer</Link>

@@ -74,7 +74,8 @@ class WorkoutList extends Component {
 					description={workout.description}
 					exerciseList={workout.exercises}
 					deleteWorkout={this.deleteWorkout}
-					listOfAllExercises={this.state.listOfAllExercises}/>;
+					listOfAllExercises={this.state.listOfAllExercises}
+					userGroup={this.state.user.loggedIn.userGroup}/>;
 			});
 		}
 
