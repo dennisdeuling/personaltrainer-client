@@ -3,13 +3,14 @@ import axios from 'axios';
 import {Button, Card, Form, ListGroup} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faPlusSquare, faTrash} from '@fortawesome/free-solid-svg-icons';
-import {getExerciseById, getExercises} from '../../services/data-service';
+import {getExerciseById, getUserById} from '../../services/data-service';
 
 class WorkoutDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			user: {
+				userId: this.props.userId,
 				userGroup: this.props.userGroup
 			},
 			workout: {
@@ -24,7 +25,6 @@ class WorkoutDetails extends Component {
 			},
 			listOfAllExercises: [],
 			showForm: false
-			//deleteExercise: false
 		};
 	}
 
@@ -44,10 +44,11 @@ class WorkoutDetails extends Component {
 				});
 		});
 
-		getExercises()
-			.then(result => {
+		getUserById(this.state.user.userId)
+			.then(response => {
+				response.exercises.unshift({title: 'Choose an exercise'});
 				this.setState({
-					listOfAllExercises: result
+					listOfAllExercises: response.exercises
 				});
 			});
 	}
@@ -73,22 +74,6 @@ class WorkoutDetails extends Component {
 			});
 	};
 
-	deleteWorkout = () => {
-		const {_id} = this.state.workout;
-
-		axios.delete(`${process.env.REACT_APP_API_URL}/workout/${_id}`, {
-			withCredentials: true
-		})
-			.then(() => {
-				this.props.deleteWorkout(_id);
-				/*this.setState({
-					showForm: false
-				});*/
-			}, error => {
-				console.error(error);
-			});
-	};
-
 	getNewExerciseList = (newExerciseList, workoutId) => {
 		newExerciseList = newExerciseList.map(exercise => {
 			return {_id: exercise._id};
@@ -107,6 +92,7 @@ class WorkoutDetails extends Component {
 
 		this.setState({
 			workout: {
+				...this.state.workout,
 				exerciseList: exerciseList
 			}
 		});
@@ -138,9 +124,7 @@ class WorkoutDetails extends Component {
 
 		this.setState({
 			workout: {
-				_id: this.state.workout._id,
-				title: this.state.workout.title,
-				description: this.state.workout.description,
+				...this.state.workout,
 				exerciseList: exerciseList
 			}
 		});
@@ -232,9 +216,9 @@ class WorkoutDetails extends Component {
 										block>
 									Submit
 								</Button>
-								<FontAwesomeIcon
+								{/*<FontAwesomeIcon
 									icon={faTrash}
-									onClick={() => this.deleteWorkout()}/>
+									onClick={() => this.deleteWorkout()}/>*/}
 							</Card.Body>
 						</Card>
 					</Form>
@@ -259,7 +243,7 @@ class WorkoutDetails extends Component {
 							{userGroup === 'trainer' &&
 							<FontAwesomeIcon
 								icon={faTrash}
-								onClick={() => this.deleteWorkout()}/>
+								onClick={() => this.props.deleteWorkout(this.state.workout._id)}/>
 							}
 						</Card.Body>
 					</Card>

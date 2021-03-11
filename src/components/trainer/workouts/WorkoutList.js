@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Container, Row} from 'react-bootstrap';
-import {getExercises, getUserById} from '../../services/data-service';
+import {uuid} from 'uuidv4';
+import {deleteWorkout, getUserById} from '../../services/data-service';
 import WorkoutDetails from './WorkoutDetails';
 
 class WorkoutList extends Component {
@@ -8,58 +9,56 @@ class WorkoutList extends Component {
 		super(props);
 		this.state = {
 			user: {
-				loggedIn: '',
-				workouts: ''
+				loggedIn: this.props.user,
+				workouts: '',
+				exercises: ''
 			},
-			listOfAllWorkouts: [],
-			listOfAllExercises: [],
-			deleteWorkout: false
+			deletedWorkout: false
 		};
 	}
 
 	componentDidMount() {
 		const {_id: trainerId} = this.props.user;
 		getUserById(trainerId)
-			.then(workouts => {
+			.then(result => {
 				this.setState({
 					user: {
 						loggedIn: this.props.user,
-						workouts: workouts.workouts
+						workouts: result.workouts,
+						exercises: result.exercises
 					}
-				});
-			});
-
-		getExercises()
-			.then(result => {
-				this.setState({
-					listOfAllExercises: result
 				});
 			});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (this.state.deleteWorkout) {
-			/*getWorkouts()
+		if (this.state.deletedWorkout) {
+			const {_id: trainerId} = this.state.user.loggedIn;
+			getUserById(trainerId)
 				.then(result => {
 					this.setState({
-						listOfAllWorkouts: result,
-						deleteWorkout: false
+						user: {
+							loggedIn: this.props.user,
+							workouts: result.workouts,
+							exercises: result.exercises
+						},
+						deletedWorkout: false
 					});
-				});*/
+				});
+
 		}
 	}
 
 	deleteWorkout = id => {
-		let allWorkouts = this.state.listOfAllWorkouts.map(exercise => {
-			return exercise;
-		});
-		const index = allWorkouts.findIndex(exercise => exercise._id === id);
-		allWorkouts = allWorkouts.splice(index, 1);
-		this.setState({
-			listOfAllExercises: allWorkouts,
-			deleteWorkout: true
-		});
-		this.props.history.push('/workouts');
+		console.log(id);
+		console.log(this.state.deletedWorkout);
+		deleteWorkout(id)
+			.then(response => {
+				console.log(response);
+				this.setState({
+					deletedWorkout: true
+				});
+			});
 	};
 
 	render() {
@@ -68,14 +67,15 @@ class WorkoutList extends Component {
 		if (workouts.length > 0) {
 			workouts = workouts.map(workout => {
 				return <WorkoutDetails
-					key={workout._id}
+					key={uuid()}
 					_id={workout._id}
 					title={workout.title}
 					description={workout.description}
 					exerciseList={workout.exercises}
 					deleteWorkout={this.deleteWorkout}
-					listOfAllExercises={this.state.listOfAllExercises}
-					userGroup={this.state.user.loggedIn.userGroup}/>;
+					listOfAllExercises={this.state.user.exercises}
+					userGroup={this.state.user.loggedIn.userGroup}
+					userId={this.state.user.loggedIn._id}/>;
 			});
 		}
 
