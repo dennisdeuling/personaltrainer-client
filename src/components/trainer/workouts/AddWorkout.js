@@ -27,7 +27,7 @@ class AddWorkout extends Component {
 				const {_id: userId} = this.state.user.loggedIn;
 
 				userModelPushArray(userId, model, dataId)
-					.then(result => {
+					.then(() => {
 						this.setState({
 							...this.state.user,
 							workout: {
@@ -35,7 +35,6 @@ class AddWorkout extends Component {
 								description: ''
 							}
 						});
-						this.props.history.push('/workouts');
 					});
 			});
 	};
@@ -53,7 +52,6 @@ class AddWorkout extends Component {
 
 
 	render() {
-		console.log(this.state.user.loggedIn);
 		return (
 			<React.Fragment>
 				<Form onSubmit={this.handleFormSubmit}>

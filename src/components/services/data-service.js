@@ -28,6 +28,13 @@ async function deleteWorkout(workoutId) {
 	return workout.data;
 };
 
+async function deleteExercise(exerciseId) {
+	const exercise = await axios.delete(`${process.env.REACT_APP_API_URL}/exercise/${exerciseId}`, {
+		withCredentials: true
+	});
+	return exercise.data;
+};
+
 async function getTrainer() {
 	const trainers = await axios.get(`${process.env.REACT_APP_API_URL}/user/trainer`, {
 		withCredentials: true
@@ -93,5 +100,6 @@ export {
 	createWorkout,
 	userModelPushArray,
 	userModelPullArray,
-	deleteWorkout
+	deleteWorkout,
+	deleteExercise
 };

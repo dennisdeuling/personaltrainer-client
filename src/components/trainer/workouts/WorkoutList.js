@@ -50,11 +50,8 @@ class WorkoutList extends Component {
 	}
 
 	deleteWorkout = id => {
-		console.log(id);
-		console.log(this.state.deletedWorkout);
 		deleteWorkout(id)
-			.then(response => {
-				console.log(response);
+			.then(() => {
 				this.setState({
 					deletedWorkout: true
 				});
@@ -85,12 +82,6 @@ class WorkoutList extends Component {
 				<Container>
 					<Row>
 						{workouts}
-						{/*<Button variant="primary"
-								type="submit"
-								size="lg"
-								block>
-							Submit
-						</Button>*/}
 					</Row>
 				</Container>
 			</div>

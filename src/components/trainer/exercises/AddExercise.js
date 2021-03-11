@@ -23,6 +23,7 @@ class AddExercise extends Component {
 		const uploadData = new FormData();
 		uploadData.append('imageUrl', event.target.files[0]);
 
+		//TODO: Make a data service from it
 		axios.post(`${process.env.REACT_APP_API_URL}/upload`, uploadData)
 			.then(response => {
 				this.setState({
@@ -33,6 +34,7 @@ class AddExercise extends Component {
 					},
 					toggle: true
 				});
+				console.log(this.state.exercise);
 			}, error => {
 				console.error(error);
 			});
@@ -49,7 +51,7 @@ class AddExercise extends Component {
 				const {_id: userId} = this.state.user.loggedIn;
 
 				userModelPushArray(userId, model, dataId)
-					.then(result => {
+					.then(() => {
 						this.setState({
 							...this.state.user,
 							exercise: {
@@ -59,7 +61,6 @@ class AddExercise extends Component {
 							},
 							toggle: false
 						});
-						this.props.history.push('/exercises');
 					});
 			});
 	};
@@ -77,7 +78,6 @@ class AddExercise extends Component {
 
 
 	render() {
-		console.log(this.state.user.loggedIn);
 		return (
 			<React.Fragment>
 				<Form onSubmit={this.handleFormSubmit}>

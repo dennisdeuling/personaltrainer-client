@@ -14,9 +14,9 @@ class WorkoutDetails extends Component {
 				userGroup: this.props.userGroup
 			},
 			workout: {
-				_id: '',
-				title: '',
-				description: '',
+				_id: this.props._id,
+				title: this.props.title,
+				description: this.props.description,
 				exerciseList: []
 			},
 			addExercise: {
@@ -34,9 +34,7 @@ class WorkoutDetails extends Component {
 				.then(exercise => {
 					this.setState({
 						workout: {
-							_id: this.props._id,
-							title: this.props.title,
-							description: this.props.description,
+							...this.state.workout,
 							exerciseList: [...this.state.workout.exerciseList, exercise]
 						}
 
@@ -56,8 +54,8 @@ class WorkoutDetails extends Component {
 	editWorkout = event => {
 		event.preventDefault();
 		const {_id, title, description, exerciseList: exercises} = this.state.workout;
-		console.log(_id);
 
+		//TODO: Make a data service
 		axios.put(`${process.env.REACT_APP_API_URL}/workout/${_id}`, {
 			title,
 			description,
@@ -102,7 +100,10 @@ class WorkoutDetails extends Component {
 		const {name, value} = event.target;
 
 		this.setState({
-			[name]: value
+			workout: {
+				...this.state.workout,
+				[name]: value
+			}
 		});
 	};
 
@@ -162,7 +163,6 @@ class WorkoutDetails extends Component {
 				{this.state.showForm ?
 					<Form onSubmit={this.editWorkout}>
 						<Card style={{width: '18rem'}}>
-							<Card.Img variant="top" src={this.state.workout.thumbImage}/>
 							<Card.Body>
 								<Card.Title>
 									<Form.Group>
@@ -184,13 +184,6 @@ class WorkoutDetails extends Component {
 													  onChange={event => this.handleWorkoutChange(event)}/>
 									</Form.Group>
 								</Card.Text>
-
-								{/*<Form.File
-							id="thumbImage"
-							label={'Upload an image file'}
-							data-browse="Pick the image"
-							custom
-							onChange={event => this.handleFileUpload(event)}/>*/}
 
 								<Card.Header>Exercises:</Card.Header>
 								<ListGroup variant="flush">
@@ -216,15 +209,11 @@ class WorkoutDetails extends Component {
 										block>
 									Submit
 								</Button>
-								{/*<FontAwesomeIcon
-									icon={faTrash}
-									onClick={() => this.deleteWorkout()}/>*/}
 							</Card.Body>
 						</Card>
 					</Form>
 					:
 					<Card style={{width: '18rem'}}>
-						<Card.Img variant="top" src={this.state.workout.thumbImage}/>
 						<Card.Body>
 							<Card.Title>{this.state.workout.title}</Card.Title>
 							<Card.Text>{this.state.workout.description}</Card.Text>

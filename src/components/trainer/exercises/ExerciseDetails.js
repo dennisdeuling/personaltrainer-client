@@ -11,7 +11,7 @@ class ExerciseDetails extends Component {
 			_id: this.props._id,
 			title: this.props.title,
 			description: this.props.description,
-			thumbImage: this.props.thumbImage,
+			image: this.props.image,
 			showForm: false
 		};
 	}
@@ -36,14 +36,12 @@ class ExerciseDetails extends Component {
 	deleteExercise = () => {
 		const {_id} = this.state;
 
+		//TODO: Make a data service from it
 		axios.delete(`${process.env.REACT_APP_API_URL}/exercise/${_id}`, {
 			withCredentials: true
 		})
 			.then(() => {
 				this.props.deleteExercise(_id);
-				/*this.setState({
-					showForm: false
-				});*/
 			}, error => {
 				console.error(error);
 			});
@@ -63,7 +61,7 @@ class ExerciseDetails extends Component {
 				{this.state.showForm ?
 					<Form onSubmit={this.editExercise}>
 						<Card style={{width: '18rem'}}>
-							<Card.Img variant="top" src={this.state.thumbImage}/>
+							<Card.Img variant="top" src={this.state.image}/>
 							<Card.Body>
 								<Card.Title>
 									<Form.Group>
@@ -85,27 +83,18 @@ class ExerciseDetails extends Component {
 													  onChange={event => this.handleChange(event)}/>
 									</Form.Group>
 								</Card.Text>
-								{/*<Form.File
-							id="thumbImage"
-							label={'Upload an image file'}
-							data-browse="Pick the image"
-							custom
-							onChange={event => this.handleFileUpload(event)}/>*/}
 								<Button variant="primary"
 										type="submit"
 										size="lg"
 										block>
 									Submit
 								</Button>
-								<FontAwesomeIcon
-									icon={faTrash}
-									onClick={() => this.deleteExercise()}/>
 							</Card.Body>
 						</Card>
 					</Form>
 					:
 					<Card style={{width: '18rem'}}>
-						<Card.Img variant="top" src={this.state.thumbImage}/>
+						<Card.Img variant="top" src={this.state.image}/>
 						<Card.Body>
 							<Card.Title>{this.state.title}</Card.Title>
 							<Card.Text>{this.state.description}</Card.Text>
@@ -114,7 +103,7 @@ class ExerciseDetails extends Component {
 								onClick={() => this.setState({showForm: true})}/>
 							<FontAwesomeIcon
 								icon={faTrash}
-								onClick={() => this.deleteExercise()}/>
+								onClick={() => this.props.deleteExercise(this.state._id)}/>
 						</Card.Body>
 					</Card>
 				}
