@@ -19,15 +19,7 @@ class WorkoutDetails extends Component {
 	}
 
 	componentDidMount() {
-		let exerciseList = [];
-		this.props.exerciseList.forEach(exerciseId => {
-			getExerciseById(exerciseId)
-				.then(exercise => {
-					console.log(exercise.title);
-				});
-		});
-
-		/*this.props.exerciseList.map(exerciseId => {
+		this.props.exerciseList.map(exerciseId => {
 			getExerciseById(exerciseId)
 				.then(exercise => {
 					this.setState({
@@ -38,7 +30,7 @@ class WorkoutDetails extends Component {
 
 					});
 				});
-		});*/
+		});
 	}
 
 	render() {
