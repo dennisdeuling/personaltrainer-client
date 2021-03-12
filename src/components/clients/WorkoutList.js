@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {getUserById} from '../services/data-service';
-import WorkoutDetails from '../trainer/workouts/WorkoutDetails';
 import {Container, Row} from 'react-bootstrap';
+
+import WorkoutDetails from './WorkoutDetails';
 
 class WorkoutList extends Component {
 	constructor(props) {
@@ -25,18 +26,15 @@ class WorkoutList extends Component {
 						userDB: user
 					}
 				});
-				console.log(user);
-				user.trainer.map(trainerId => {
+				user.trainer.forEach(trainerId => {
 					getUserById(trainerId)
-						.then(workouts => {
-							workouts = workouts.workouts;
+						.then(response => {
+							console.log(response);
 							this.setState({
-								workouts: [...this.state.workouts, ...workouts]
+								workouts: [...this.state.workouts, ...response.workouts]
 							});
 						});
 				});
-			}, error => {
-				console.log(error);
 			});
 	}
 
@@ -48,8 +46,7 @@ class WorkoutList extends Component {
 				_id={workout._id}
 				title={workout.title}
 				description={workout.description}
-				exerciseList={workout.exercises}
-				userGroup={this.state.user.loggedIn.userGroup}/>;
+				exerciseList={workout.exercises}/>;
 		});
 		return (
 			<div>
@@ -57,12 +54,6 @@ class WorkoutList extends Component {
 				<Container>
 					<Row>
 						{workoutList}
-						{/*<Button variant="primary"
-								type="submit"
-								size="lg"
-								block>
-							Submit
-						</Button>*/}
 					</Row>
 				</Container>
 			</div>

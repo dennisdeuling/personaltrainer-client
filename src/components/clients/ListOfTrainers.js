@@ -26,11 +26,11 @@ class ListOfTrainers extends Component {
 
 	selectTrainer = trainerId => {
 		const {_id: userId} = this.state.user;
-		const trainer = trainerId;
+		const model = 'trainer';
 
-		userModelPushArray(userId, trainer, trainerId)
+		userModelPushArray(userId, model, trainerId)
 			.then(result => {
-				//console.log(result);
+				console.log(result);
 			});
 
 	};
@@ -39,7 +39,7 @@ class ListOfTrainers extends Component {
 		const trainerList = this.state.trainerList.map(trainer => {
 			return (
 				<Card style={{width: '18rem'}}>
-					<Card.Img variant="top" src="holder.js/100px180"/>
+					{/*<Card.Img variant="top" src="holder.js/100px180"/>*/}
 					<Card.Body>
 						<Card.Title>{trainer.username}</Card.Title>
 						<Card.Text>
