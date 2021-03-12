@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import {Button, Card} from 'react-bootstrap';
-import {getTrainer, userModelPushArray} from '../services/data-service';
-import {faThumbsUp} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {getTrainer, getUserById, userModelPushArray} from '../services/data-service';
 
 class ListOfTrainers extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			user: this.props.user,
-			trainerList: []
+			user: '',
+			trainerList: [],
+			addedTrainer: false
 		};
 	}
 
@@ -22,6 +21,49 @@ class ListOfTrainers extends Component {
 			}, error => {
 				console.log(error);
 			});
+
+		getUserById(this.props.user._id)
+			.then(response => {
+				let trainerList = this.state.trainerList;
+				const trainer = response.trainer;
+
+				trainerList.forEach((eachTrainer, index) => {
+					trainerList[index].addFromUser = trainer.includes(eachTrainer._id);
+				});
+
+				this.setState({
+					user: response,
+					trainerLis: trainerList
+				});
+			});
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.state.addedTrainer) {
+			getTrainer()
+				.then(result => {
+					this.setState({
+						trainerList: result
+					});
+				}, error => {
+					console.log(error);
+				});
+
+			getUserById(this.props.user._id)
+				.then(response => {
+					let trainerList = this.state.trainerList;
+					const trainer = response.trainer;
+
+					trainerList.forEach((eachTrainer, index) => {
+						trainerList[index].addFromUser = trainer.includes(eachTrainer._id);
+					});
+
+					this.setState({
+						user: response,
+						trainerLis: trainerList
+					});
+				});
+		}
 	}
 
 	selectTrainer = trainerId => {
@@ -29,17 +71,19 @@ class ListOfTrainers extends Component {
 		const model = 'trainer';
 
 		userModelPushArray(userId, model, trainerId)
-			.then(result => {
-				console.log(result);
+			.then(() => {
+				this.setState({
+					addedTrainer: true
+				});
 			});
 
 	};
 
 	render() {
 		const trainerList = this.state.trainerList.map(trainer => {
+			console.log(trainer);
 			return (
 				<Card style={{width: '18rem'}}>
-					{/*<Card.Img variant="top" src="holder.js/100px180"/>*/}
 					<Card.Body>
 						<Card.Title>{trainer.username}</Card.Title>
 						<Card.Text>
@@ -47,11 +91,15 @@ class ListOfTrainers extends Component {
 							of
 							the card's content.
 						</Card.Text>
-						<Button variant="primary">
-							<FontAwesomeIcon
-								icon={faThumbsUp}
-								onClick={() => this.selectTrainer(trainer._id)}/>
-						</Button>
+						{trainer.addFromUser ?
+							<Button variant="outline-primary">
+								Trainer already added
+							</Button>
+							:
+							<Button variant="primary"
+									onClick={() => this.selectTrainer(trainer._id)}>
+								Trainer not added
+							</Button>}
 					</Card.Body>
 				</Card>
 			);

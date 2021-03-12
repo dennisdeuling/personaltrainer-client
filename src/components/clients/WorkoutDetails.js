@@ -34,7 +34,6 @@ class WorkoutDetails extends Component {
 	}
 
 	render() {
-		console.log(this.state.workout.exerciseList);
 		let exerciseList = this.state.workout.exerciseList;
 
 		if (exerciseList.length > 0) {

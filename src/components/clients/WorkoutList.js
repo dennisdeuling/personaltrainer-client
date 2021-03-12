@@ -29,7 +29,6 @@ class WorkoutList extends Component {
 				user.trainer.forEach(trainerId => {
 					getUserById(trainerId)
 						.then(response => {
-							console.log(response);
 							this.setState({
 								workouts: [...this.state.workouts, ...response.workouts]
 							});
@@ -39,7 +38,6 @@ class WorkoutList extends Component {
 	}
 
 	render() {
-		console.log(this.state.workouts);
 		const workoutList = this.state.workouts.map(workout => {
 			return <WorkoutDetails
 				key={workout._id}
