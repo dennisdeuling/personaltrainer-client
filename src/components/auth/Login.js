@@ -27,11 +27,11 @@ class Login extends Component {
 				this.props.getUser(response);
 
 				if (response.userGroup === 'trainer') {
-					this.props.history.push('/profile');
+					this.props.history.push('/workouts');
 				}
 
 				if (response.userGroup === 'client') {
-					this.props.history.push('/dashboard');
+					this.props.history.push('/trainer');
 				}
 			}, error => {
 				console.log(error);
