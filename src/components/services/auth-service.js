@@ -9,26 +9,26 @@ class AuthService {
 	}
 
 	signup = (username, email, password, userGroup) => {
-		return this.service.post(`${process.env.REACT_APP_API_URL}/signup`, {
+		return this.service.post(`${process.env.REACT_APP_API_URL}signup`, {
 			username, email, password, userGroup
 		})
 			.then(response => response.data);
 	};
 
 	login = (email, password) => {
-		return this.service.post(`${process.env.REACT_APP_API_URL}/login`, {
+		return this.service.post(`${process.env.REACT_APP_API_URL}login`, {
 			email, password
 		})
 			.then(response => response.data);
 	};
 
 	isLoggedIn = () => {
-		return this.service.get(`${process.env.REACT_APP_API_URL}/loggedin`)
+		return this.service.get(`${process.env.REACT_APP_API_URL}loggedin`)
 			.then(response => response.data);
 	};
 
 	logout = () => {
-		return this.service.post(`${process.env.REACT_APP_API_URL}/logout`, {})
+		return this.service.post(`${process.env.REACT_APP_API_URL}logout`, {})
 			.then(response => response.data);
 	};
 }

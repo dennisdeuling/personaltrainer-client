@@ -81,7 +81,6 @@ class ListOfTrainers extends Component {
 
 	render() {
 		const trainerList = this.state.trainerList.map(trainer => {
-			console.log(trainer);
 			return (
 				<Card style={{width: '18rem'}}>
 					<Card.Body>
