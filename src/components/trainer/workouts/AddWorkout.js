@@ -35,6 +35,7 @@ class AddWorkout extends Component {
 								description: ''
 							}
 						});
+						this.props.history.push('/workouts');
 					});
 			});
 	};

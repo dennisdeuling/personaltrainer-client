@@ -62,6 +62,7 @@ class AddExercise extends Component {
 							toggle: false
 						});
 					});
+				this.props.history.push('/exercises');
 			});
 	};
 
