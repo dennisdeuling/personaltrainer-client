@@ -13,29 +13,31 @@ class ListOfTrainers extends Component {
 	}
 
 	componentDidMount() {
-		getTrainer()
-			.then(result => {
-				this.setState({
-					trainerList: result
-				});
-			}, error => {
-				console.log(error);
-			});
-
-		getUserById(this.props.user._id)
-			.then(response => {
-				let trainerList = this.state.trainerList;
-				const trainer = response.trainer;
-
-				trainerList.forEach((eachTrainer, index) => {
-					trainerList[index].addFromUser = trainer.includes(eachTrainer._id);
+		if (this.state.addedTrainer) {
+			getTrainer()
+				.then(result => {
+					this.setState({
+						trainerList: result
+					});
+				}, error => {
+					console.log(error);
 				});
 
-				this.setState({
-					user: response,
-					trainerLis: trainerList
+			getUserById(this.props.user._id)
+				.then(response => {
+					let trainerList = this.state.trainerList;
+					const trainer = response.trainer;
+
+					trainerList.forEach((eachTrainer, index) => {
+						trainerList[index].addFromUser = trainer.includes(eachTrainer._id);
+					});
+
+					this.setState({
+						user: response,
+						trainerLis: trainerList
+					});
 				});
-			});
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
