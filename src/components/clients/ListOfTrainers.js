@@ -13,31 +13,30 @@ class ListOfTrainers extends Component {
 	}
 
 	componentDidMount() {
-		if (this.state.addedTrainer) {
-			getTrainer()
-				.then(result => {
-					this.setState({
-						trainerList: result
-					});
-				}, error => {
-					console.log(error);
+
+		getTrainer()
+			.then(result => {
+				this.setState({
+					trainerList: result
+				});
+			}, error => {
+				console.log(error);
+			});
+
+		getUserById(this.props.user._id)
+			.then(response => {
+				let trainerList = this.state.trainerList;
+				const trainer = response.trainer;
+
+				trainerList.forEach((eachTrainer, index) => {
+					trainerList[index].addFromUser = trainer.includes(eachTrainer._id);
 				});
 
-			getUserById(this.props.user._id)
-				.then(response => {
-					let trainerList = this.state.trainerList;
-					const trainer = response.trainer;
-
-					trainerList.forEach((eachTrainer, index) => {
-						trainerList[index].addFromUser = trainer.includes(eachTrainer._id);
-					});
-
-					this.setState({
-						user: response,
-						trainerLis: trainerList
-					});
+				this.setState({
+					user: response,
+					trainerLis: trainerList
 				});
-		}
+			});
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -62,7 +61,8 @@ class ListOfTrainers extends Component {
 
 					this.setState({
 						user: response,
-						trainerLis: trainerList
+						trainerLis: trainerList,
+						addedTrainer: false
 					});
 				});
 		}
